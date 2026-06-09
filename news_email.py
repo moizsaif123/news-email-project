@@ -16,7 +16,7 @@ load_dotenv()
 
 def get_news():
     """Fetch top headlines from NewsAPI"""
-    newsapi = NewsApiClient(api_key=os.environ.get("my_api_key"))
+    newsapi = NewsApiClient(api_key=os.environ.get("NEWSAPI_KEY"))
     
     # Get top 10 headlines from the US (English language)
     top_headlines = newsapi.get_top_headlines(language='en', country='us', page_size=10)
