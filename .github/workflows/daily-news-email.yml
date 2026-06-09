@@ -3,6 +3,7 @@ name: Daily News Email
 on:
   schedule:
     - cron: "0 19 * * *"
+    timezone: "America/Toronto"
   workflow_dispatch:
 
 jobs:
