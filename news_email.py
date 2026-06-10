@@ -77,37 +77,45 @@ def format_news_email(articles):
 
 def send_email(html_content):
     """Send email using Gmail SMTP"""
-    gmail_address = os.environ.get('GMAIL_ADDRESS')
-    gmail_password = os.environ.get('GMAIL_APP_PASSWORD')
-    
+    gmail_address = os.environ.get("GMAIL_ADDRESS")
+    gmail_password = os.environ.get("GMAIL_APP_PASSWORD")
+
     if not gmail_address or not gmail_password:
-        print("Error: Gmail credentials not found in .env file")
+        print("Error: Gmail credentials not found in environment variables")
         return False
-    
-    msg = MIMEMultipart('alternative')
-    msg['Subject'] = f"Daily News Headlines - {datetime.datetime.now().strftime('%B %d, %Y')}"
-    msg['From'] = gmail_address
-    msg['To'] = gmail_address
-    
-    # Attach HTML content
-    msg.attach(MIMEText(html_content, 'html'))
-    
+
+    recipients_str = os.environ.get("EMAIL_RECIPIENTS", gmail_address)
+    recipients = [email.strip() for email in recipients_str.split(",") if email.strip()]
+
+    if not recipients:
+        recipients = [gmail_address]
+
+    print(f"Recipients list: {recipients}")
+
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = f"Daily News Headlines - {datetime.datetime.now().strftime('%B %d, %Y')}"
+    msg["From"] = gmail_address
+    msg["To"] = ", ".join(recipients)
+
+    msg.attach(MIMEText(html_content, "html"))
+
     try:
-        # Connect to Gmail SMTP server
-        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
             server.login(gmail_address, gmail_password)
-            print(f"Recipients list: {recipients}")
-            server.sendmail(gmail_address, gmail_address, msg.as_string())
-        print(f"Email sent successfully to {gmail_address}!")
+            server.sendmail(gmail_address, recipients, msg.as_string())
+
+        print(f"Email sent successfully to {len(recipients)} recipient(s): {', '.join(recipients)}!")
         return True
+
     except smtplib.SMTPAuthenticationError as e:
         print(f"Authentication error: {e}")
         print("Please check your Gmail address and app password.")
         return False
+
     except Exception as e:
         print(f"Error sending email: {e}")
         return False
-
+        
 def main():
     """Main function to fetch news and send email"""
     print("Fetching news headlines...")
