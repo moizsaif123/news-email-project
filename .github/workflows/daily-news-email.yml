@@ -21,6 +21,14 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Debug schedule info
+        run: |
+          echo "Triggered by: ${{ github.event_name }}"
+          echo "GitHub UTC time:"
+          date -u
+          echo "Local runner time:"
+          date
+
       - name: Run news email script
         env:
           NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
