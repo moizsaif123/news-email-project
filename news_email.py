@@ -48,6 +48,11 @@ def format_news_email(articles):
     """
     
     for i, article in enumerate(articles, 1):
+        title = article.get("title") or "No title available"
+        description = article.get("description") or "No description available."
+        source = article.get("source", {}).get("name") or "Unknown source"
+        url = article.get("url") or "#"
+    
         html_content += """
         <div class="article">
             <h3>{num}. {title}</h3>
@@ -57,10 +62,10 @@ def format_news_email(articles):
         </div>
         """.format(
             num=i,
-            title=article['title'],
-            description=article.get('description', 'No description available.')[:200],
-            source=article['source']['name'],
-            url=article['url']
+            title=title,
+            description=description[:200],
+            source=source,
+            url=url
         )
     
     html_content += """
