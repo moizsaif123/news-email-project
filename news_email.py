@@ -96,6 +96,7 @@ def send_email(html_content):
         # Connect to Gmail SMTP server
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
             server.login(gmail_address, gmail_password)
+            print(f"Recipients list: {recipients}")
             server.sendmail(gmail_address, gmail_address, msg.as_string())
         print(f"Email sent successfully to {gmail_address}!")
         return True
