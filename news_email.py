@@ -19,7 +19,8 @@ def get_news():
     newsapi = NewsApiClient(api_key=os.environ.get("NEWSAPI_KEY"))
     
     # Get top 10 headlines from the US (English language)
-    top_headlines = newsapi.get_top_headlines(language='en', country='us', page_size=10)
+    #top_headlines = newsapi.get_top_headlines(language='en', country='us', page_size=10)
+    top_headlines = newsapi.get_top_headlines(sources='al-jazeera-english,cnn',page_size=15)
     
     return top_headlines['articles']
 
