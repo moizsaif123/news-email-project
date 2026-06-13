@@ -21,7 +21,20 @@ def get_news():
     # Get top 10 headlines from the US (English language)
     #top_headlines = newsapi.get_top_headlines(language='en', country='us', page_size=10)
     
-    top_headlines = newsapi.get_top_headlines(sources='al-jazeera-english,cnn,khaleej-times',page_size=20)
+    #top_headlines = newsapi.get_top_headlines(sources='al-jazeera-english,cnn,khaleej-times',page_size=20)
+
+    top_headlines = newsapi.get_top_headlines(
+        sources='al-jazeera-english,cnn',
+        page_size=15
+    )
+
+    khaleej_news = newsapi.get_everything(
+        domains="khaleejtimes.com",
+        language="en",
+        page_size=10
+    )
+
+    articles = top_headlines["articles"] + khaleej_news["articles"]
     
     return top_headlines['articles']
 
