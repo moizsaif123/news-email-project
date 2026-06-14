@@ -25,19 +25,27 @@ def get_news():
 
     top_headlines = newsapi.get_top_headlines(
         sources='al-jazeera-english,cnn',
-        page_size=15
+        page_size=20
     )
-
-    khaleej_news = newsapi.get_everything(
-        domains="khaleejtimes.com",
-        language="en",
+    
+    bloomberg_news = newsapi.get_top_headlines(
+        sources='bloomberg',
+        page_size=5
+    )
+    
+    cnbc_news = newsapi.get_top_headlines(
+        sources='cnbc',
         page_size=10
     )
-
-    articles = top_headlines["articles"] + khaleej_news["articles"]
     
-    return top_headlines['articles']
-
+    articles = (
+        top_headlines["articles"]
+        + bloomberg_news["articles"]
+        + cnbc_news["articles"]
+    )
+    
+    return articles
+    
 def format_news_email(articles):
     """Format news articles into HTML email content"""
     today_date = datetime.datetime.now().strftime("%B %d, %Y")
