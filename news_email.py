@@ -24,8 +24,8 @@ def get_news():
     #top_headlines = newsapi.get_top_headlines(sources='al-jazeera-english,cnn,khaleej-times',page_size=20)
 
     top_headlines = newsapi.get_top_headlines(
-        sources='al-jazeera-english,cnn,bloomberg,abc-news',
-        page_size=30
+        sources='al-jazeera-english,cnn,bloomberg,abc-news,techcrunch',
+        page_size=50
     )
     
     return top_headlines['articles']
